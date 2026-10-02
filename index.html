@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agapoploutous — We Build Playful Web Experiences</title>
+    <meta name="description" content="Agapoploutous crafts fast, playful, offline-friendly web experiences. Explore our releases and learn how we build websites like these.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='16' fill='%230b0c10'/><text x='32' y='44' font-size='36' text-anchor='middle'>🎮</text></svg>">
+    <style>
+        :root {
+            --bg: #0b0c10;
+            --bg-soft: #14161f;
+            --card: #1c1f2b;
+            --card-hover: #232738;
+            --text: #e8e9f0;
+            --muted: #9aa0b5;
+            --accent: #6c8cff;
+            --accent-2: #45f3ff;
+            --accent-3: #a78bfa;
+            --radius-lg: 28px;
+            --radius-md: 20px;
+            --radius-sm: 14px;
+            --shadow: 0 20px 60px rgba(0,0,0,.45);
+            --ring: 0 0 0 3px rgba(108,140,255,.25);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Ambient background glows */
+        body::before, body::after {
+            content: "";
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: .18;
+            z-index: -1;
+            pointer-events: none;
+        }
+        body::before { width: 520px; height: 520px; background: var(--accent); top: -160px; left: -120px; }
+        body::after  { width: 460px; height: 460px; background: var(--accent-3); bottom: -140px; right: -100px; }
+
+        a { color: var(--accent-2); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+        /* ---------- Header ---------- */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(14px);
+            background: rgba(11,12,16,.7);
+            border-bottom: 1px solid rgba(255,255,255,.06);
+        }
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            font-size: 1.15rem;
+            letter-spacing: .5px;
+            color: var(--text);
+        }
+        .brand .logo {
+            width: 42px; height: 42px;
+            border-radius: 14px;
+            display: grid; place-items: center;
+            font-size: 1.2rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent-3));
+            box-shadow: 0 6px 18px rgba(108,140,255,.4);
+        }
+        .nav-links { display: flex; gap: 6px; flex-wrap: wrap; }
+        .nav-links a {
+            color: var(--muted);
+            font-size: .92rem;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 999px;
+            transition: all .2s ease;
+        }
+        .nav-links a:hover { color: var(--text); background: var(--card); text-decoration: none; }
+
+        /* ---------- Hero ---------- */
+        .hero { text-align: center; padding: 96px 0 72px; }
+        .hero .pill {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 999px;
+            background: var(--card);
+            border: 1px solid rgba(255,255,255,.08);
+            color: var(--accent-2);
+            font-size: .82rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+        }
+        .hero h1 {
+            font-size: clamp(2.4rem, 6vw, 4.2rem);
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            margin-bottom: 20px;
+        }
+        .hero h1 .grad {
+            background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .hero p {
+            max-width: 620px;
+            margin: 0 auto 36px;
+            color: var(--muted);
+            font-size: 1.1rem;
+        }
+        .hero-cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+        .btn {
+            display: inline-block;
+            padding: 14px 30px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: .95rem;
+            cursor: pointer;
+            border: none;
+            transition: transform .15s ease, box-shadow .15s ease;
+        }
+        .btn:hover { transform: translateY(-2px); text-decoration: none; }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-3));
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(108,140,255,.4);
+        }
+        .btn-ghost {
+            background: var(--card);
+            color: var(--text);
+            border: 1px solid rgba(255,255,255,.1);
+        }
+
+        /* ---------- Sections ---------- */
+        section { padding: 72px 0; }
+        .section-head { text-align: center; margin-bottom: 48px; }
+        .section-head h2 { font-size: 2rem; font-weight: 800; margin-bottom: 10px; }
+        .section-head p { color: var(--muted); max-width: 560px; margin: 0 auto; }
+
+        /* ---------- Release cards ---------- */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        .card {
+            background: var(--card);
+            border: 1px solid rgba(255,255,255,.07);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: transform .2s ease, background .2s ease, border-color .2s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .card:hover { transform: translateY(-6px); background: var(--card-hover); border-color: rgba(108,140,255,.35); }
+        .card .icon {
+            width: 56px; height: 56px;
+            border-radius: var(--radius-md);
+            display: grid; place-items: center;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, rgba(108,140,255,.2), rgba(167,139,250,.2));
+            border: 1px solid rgba(108,140,255,.25);
+        }
+        .card h3 { font-size: 1.2rem; font-weight: 800; }
+        .card p { color: var(--muted); font-size: .94rem; flex: 1; }
+        .card .meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            font-size: .82rem;
+        }
+        .tag {
+            padding: 5px 14px;
+            border-radius: 999px;
+            background: rgba(69,243,255,.1);
+            color: var(--accent-2);
+            font-weight: 700;
+            letter-spacing: .5px;
+            text-transform: uppercase;
+            font-size: .7rem;
+        }
+        .card .link { font-weight: 700; font-size: .9rem; }
+
+        /* ---------- Feature / "we make" ---------- */
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+        .feature {
+            background: var(--bg-soft);
+            border: 1px solid rgba(255,255,255,.06);
+            border-radius: var(--radius-md);
+            padding: 26px;
+            text-align: center;
+        }
+        .feature .emoji { font-size: 2rem; margin-bottom: 12px; display: block; }
+        .feature h3 { font-size: 1.05rem; margin-bottom: 8px; }
+        .feature p { color: var(--muted); font-size: .9rem; }
+
+        /* ---------- Stats strip ---------- */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+        .stat {
+            background: var(--card);
+            border-radius: var(--radius-md);
+            padding: 28px 16px;
+            border: 1px solid rgba(255,255,255,.07);
+        }
+        .stat .num { font-size: 2.2rem; font-weight: 900; background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .stat .lbl { color: var(--muted); font-size: .85rem; margin-top: 4px; }
+
+        /* ---------- Formal / legal ---------- */
+        .legal-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+        .legal-card {
+            background: var(--card);
+            border: 1px solid rgba(255,255,255,.07);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+        .legal-card h3 { margin-bottom: 12px; font-size: 1.15rem; }
+        .legal-card p { color: var(--muted); font-size: .92rem; margin-bottom: 10px; }
+        .legal-card .btn { margin-top: 10px; padding: 10px 22px; font-size: .85rem; }
+
+        /* ---------- Footer ---------- */
+        footer {
+            border-top: 1px solid rgba(255,255,255,.07);
+            padding: 40px 0 32px;
+            text-align: center;
+            color: var(--muted);
+            font-size: .88rem;
+        }
+        footer .foot-brand { font-weight: 800; color: var(--text); margin-bottom: 8px; font-size: 1rem; }
+        footer .copy { margin-top: 14px; font-size: .8rem; opacity: .8; }
+        footer .legal-links { margin-top: 12px; display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; }
+        footer .legal-links a { color: var(--muted); font-size: .82rem; }
+        footer .legal-links a:hover { color: var(--text); }
+
+        /* ---------- Modal ---------- */
+        .modal-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,.7);
+            backdrop-filter: blur(6px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 20px;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal {
+            background: var(--bg-soft);
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: var(--radius-lg);
+            max-width: 640px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 36px;
+            box-shadow: var(--shadow);
+        }
+        .modal h2 { margin-bottom: 16px; font-size: 1.4rem; }
+        .modal h4 { margin: 18px 0 6px; color: var(--accent-2); }
+        .modal p, .modal li { color: var(--muted); font-size: .92rem; }
+        .modal ul { padding-left: 20px; }
+        .modal .close-row { display: flex; justify-content: flex-end; margin-top: 24px; }
+
+        @media (max-width: 640px) {
+            .nav { flex-direction: column; gap: 12px; }
+            .hero { padding: 64px 0 48px; }
+            section { padding: 48px 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="wrap nav">
+            <div class="brand"><span class="logo">🎮</span> Agapoploutous</div>
+            <nav class="nav-links">
+                <a href="#releases">Releases</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+                <a href="#" open-modal="terms-modal">Terms</a>
+                <a href="#" open-modal="privacy-modal">Privacy</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <div class="wrap hero">
+        <span class="pill">● Since 2026</span>
+        <h1>We build <span class="grad">playful web experiences</span> like these.</h1>
+        <p>Agapoploutous designs and ships fast, rounded, offline-friendly game hubs and interactive websites — crafted with care, built for fun.</p>
+        <div class="hero-cta">
+            <a href="#releases" class="btn btn-primary">Explore Our Releases</a>
+            <a href="#about" class="btn btn-ghost">What We Do</a>
+        </div>
+    </div>
+
+    <!-- Releases -->
+    <section id="releases">
+        <div class="wrap">
+            <div class="section-head">
+                <h2>Our Releases</h2>
+                <p>A collection of game hubs and interactive experiences we've designed, built, and deployed.</p>
+            </div>
+            <div class="grid">
+                <div class="card">
+                    <div class="icon">🟤</div>
+                    <h3>Game Hub — Khaki</h3>
+                    <p>Our flagship arcade deck. A collapsible dashboard with a local profile system, developer tools, and a growing library of HTML games.</p>
+                    <div class="meta"><span class="tag">Live</span><a class="link" href="https://game-hub-website-khaki.vercel.app" target="_blank" rel="noopener">Visit →</a></div>
+                </div>
+                <div class="card">
+                    <div class="icon">💎</div>
+                    <h3>Game Hub — Pyrite</h3>
+                    <p>A polished variant of our game hub concept with the same offline-first philosophy and rounded, neon-accented interface.</p>
+                    <div class="meta"><span class="tag">Live</span><a class="link" href="https://pyrite-game-hub.vercel.app" target="_blank" rel="noopener">Visit →</a></div>
+                </div>
+                <div class="card">
+                    <div class="icon">🔵</div>
+                    <h3>Game Hub — Celestite</h3>
+                    <p>Another release in our hub series, built for speed and simplicity. Pick a title, launch its runtime loop, and play.</p>
+                    <div class="meta"><span class="tag">Live</span><a class="link" href="https://celestite-game-hub.vercel.app" target="_blank" rel="noopener">Visit →</a></div>
+                </div>
+                <div class="card">
+                    <div class="icon">🟣</div>
+                    <h3>Game Hub — Tektite</h3>
+                    <p>The latest addition to our lineup. Fully local profiles, import/export master files, and a curated game selection.</p>
+                    <div class="meta"><span class="tag">Live</span><a class="link" href="https://tektite-game-hub.vercel.app" target="_blank" rel="noopener">Visit →</a></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section id="about" style="padding-top:0;">
+        <div class="wrap">
+            <div class="stats">
+                <div class="stat"><div class="num">4</div><div class="lbl">Live Releases</div></div>
+                <div class="stat"><div class="num">27+</div><div class="lbl">Games Supported</div></div>
+                <div class="stat"><div class="num">100%</div><div class="lbl">Offline-Friendly</div></div>
+                <div class="stat"><div class="num">∞</div><div class="lbl">Fun Factor</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What we do -->
+    <section style="padding-top:0;">
+        <div class="wrap">
+            <div class="section-head">
+                <h2>Why websites like these?</h2>
+                <p>Every project we ship follows the same principles — fast, friendly, and built to last in your browser.</p>
+            </div>
+            <div class="features">
+                <div class="feature"><span class="emoji">⚡</span><h3>Blazing Fast</h3><p>Lightweight HTML, CSS, and JS. No bloat, no load screens — just instant play.</p></div>
+                <div class="feature"><span class="emoji">🎨</span><h3>Beautifully Rounded</h3><p>Soft corners, smooth gradients, and thoughtful spacing make every interface feel modern.</p></div>
+                <div class="feature"><span class="emoji">💾</span><h3>Offline-First</h3><p>Local profiles, IndexedDB saves, and master-file export keep your data in your hands.</p></div>
+                <div class="feature"><span class="emoji">🔒</span><h3>Privacy Respecting</h3><p>No trackers, no accounts, no servers watching. Your activity stays on your device.</p></div>
+                <div class="feature"><span class="emoji">🎮</span><h3>Playful by Design</h3><p>Game hubs, interactive toys, and experiences that make you want to click around.</p></div>
+                <div class="feature"><span class="emoji">🛠️</span><h3>Extensible</h3><p>Developer tools and import/export let you shape the hub into exactly what you want.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Formal / Legal -->
+    <section id="contact" style="padding-top:0;">
+        <div class="wrap">
+            <div class="section-head">
+                <h2>Formal Information</h2>
+                <p>We take our work seriously. Read our terms and privacy policy, or get in touch.</p>
+            </div>
+            <div class="legal-grid">
+                <div class="legal-card">
+                    <h3>📜 Terms of Service</h3>
+                    <p>The rules that govern the use of our websites and releases. Short version: be kind, don't misuse, and have fun.</p>
+                    <button class="btn btn-ghost" open-modal="terms-modal">Read Terms</button>
+                </div>
+                <div class="legal-card">
+                    <h3>🔐 Privacy Policy</h3>
+                    <p>We collect almost nothing. Learn how we handle (or rather, don't handle) your data across our releases.</p>
+                    <button class="btn btn-ghost" open-modal="privacy-modal">Read Privacy</button>
+                </div>
+                <div class="legal-card">
+                    <h3>✉️ Contact</h3>
+                    <p>Have a suggestion, found a bug, or want a website like these for yourself? Reach out any time.</p>
+                    <a class="btn btn-primary" href="mailto:contact@agapoploutous.example">Get In Touch</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="wrap">
+            <div class="foot-brand">🎮 Agapoploutous</div>
+            <div>We build playful web experiences like these — fast, rounded, and offline-friendly.</div>
+            <div class="legal-links">
+                <a href="#" open-modal="terms-modal">Terms of Service</a>
+                <a href="#" open-modal="privacy-modal">Privacy Policy</a>
+                <a href="#releases">Releases</a>
+                <a href="mailto:contact@agapoploutous.example">Contact</a>
+            </div>
+            <div class="copy">© 2026 Agapoploutous. All Rights Reserved. Unauthorized duplication or publication of any materials from this site is strictly prohibited.</div>
+        </div>
+    </footer>
+
+    <!-- Terms Modal -->
+    <div class="modal-overlay" id="terms-modal">
+        <div class="modal">
+            <h2>Terms of Service</h2>
+            <p><strong>Last Updated: October 2, 2026</strong></p>
+            <p>Welcome to Agapoploutous! These Terms of Service govern your access to and use of our websites, game hubs, and interactive releases (collectively, the "Services"). By using our Services, you agree to these Terms.</p>
+            <h4>1. Use of Services</h4>
+            <p>Our Services are provided for personal, non-commercial entertainment. You agree to use them responsibly and not to misuse, disrupt, or attempt to reverse-engineer any part of the experience.</p>
+            <h4>2. Intellectual Property</h4>
+            <p>All software, design, text, and branding on our releases are the exclusive property of Agapoploutous or its licensors. You may not copy, modify, or distribute our code or assets without prior written consent.</p>
+            <h4>3. Local Data</h4>
+            <p>Profiles, saves, and settings live in your browser. You are responsible for your own data; clearing your browser storage will erase it.</p>
+            <h4>4. Disclaimer</h4>
+            <p>Services are provided "as is" without warranties of any kind. Agapoploutous disclaims liability for bugs, errors, downtime, or loss of local data.</p>
+            <h4>5. Changes</h4>
+            <p>We may update these Terms from time to time. Continued use of the Services after changes constitutes acceptance.</p>
+            <div class="close-row"><button class="btn btn-primary" close-modal>Close</button></div>
+        </div>
+    </div>
+
+    <!-- Privacy Modal -->
+    <div class="modal-overlay" id="privacy-modal">
+        <div class="modal">
+            <h2>Privacy Policy</h2>
+            <p><strong>Last Updated: October 2, 2026</strong></p>
+            <p>Agapoploutous ("we", "us", "our") operates our game hubs and interactive releases. This policy explains how we handle information — which is to say, barely at all.</p>
+            <h4>1. Local Data Processing</h4>
+            <p>Your game settings, active sessions, and preferences are saved locally in your own browser (local storage or IndexedDB). Nothing is sent to our servers.</p>
+            <h4>2. Information We Collect</h4>
+            <p>Because our platforms are hosted via Vercel, minor standard analytics (device type, browser, OS) may be processed for stability and performance. We do not collect or track personally identifiable information.</p>
+            <h4>3. Third-Party Links</h4>
+            <p>Our releases may link to external services such as GitHub. We are not responsible for the privacy practices of third-party sites.</p>
+            <h4>4. Your Rights</h4>
+            <p>Since we don't store your data centrally, you can wipe everything at any time by clearing your browser's cache and site data for our domains.</p>
+            <h4>5. Changes</h4>
+            <p>We may update this policy and will notify you by posting the new version on this page with an updated date.</p>
+            <div class="close-row"><button class="btn btn-primary" close-modal>Close</button></div>
+        </div>
+    </div>
+
+    <script>
+        // Modal open/close
+        document.querySelectorAll('[open-modal]').forEach(el => {
+            el.addEventListener('click', e => {
+                e.preventDefault();
+                const id = el.getAttribute('open-modal');
+                document.getElementById(id).classList.add('open');
+            });
+        });
+        document.querySelectorAll('[close-modal]').forEach(el => {
+            el.addEventListener('click', () => {
+                el.closest('.modal-overlay').classList.remove('open');
+            });
+        });
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', e => {
+                if (e.target === overlay) overlay.classList.remove('open');
+            });
+        });
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
+        });
+    </script>
+</body>
+</html>
